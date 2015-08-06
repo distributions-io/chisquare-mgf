@@ -51,4 +51,9 @@ describe( 'number mgf', function tests() {
 		assert.isTrue( isnan( mgf( NaN, k ) ) );
 	});
 
+	it( 'should return `NaN` if `t >= 0.5`', function test() {
+		assert.isTrue( isnan( mgf( 0.5, k ) ) );
+		assert.isTrue( isnan( mgf( 0.7, k ) ) );
+	});
+
 });

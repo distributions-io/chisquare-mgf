@@ -54,9 +54,15 @@ describe( 'partial mgf', function tests() {
 		}
 	});
 
-	it( 'should return `NaN` if provided `NaN` as input', function test() {
+	it( 'function should return `NaN` if provided `NaN` as input', function test() {
 		var mgf = partial(  k );
 		assert.isTrue( isnan( mgf( NaN ) ) );
+	});
+
+	it( 'function should return `NaN` if `t >= 0.5`', function test() {
+		var mgf = partial(  k );
+		assert.isTrue( isnan( mgf( 0.5, k ) ) );
+		assert.isTrue( isnan( mgf( 0.7, k ) ) );
 	});
 
 });

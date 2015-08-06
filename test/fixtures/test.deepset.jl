@@ -1,10 +1,10 @@
 using Distributions
 using JSON
 
-k = 1
+k = 5
 d = Chisq( k )
 
-x = linspace( .5, -100, 100 )
+x = linspace( .4, -10, 100 )
 
 dmgf(t) = mgf(d, t )
 y = map( dmgf, x )

@@ -7,7 +7,7 @@ Moment-Generating Function
 The [moment-generating function](https://en.wikipedia.org/wiki/Moment-generating_function) for a [Chi-squared](https://en.wikipedia.org/wiki/Chi-squared_distribution) random variable is
 
 <div class="equation" align="center" data-raw-text="
-    M_X(t) := \mathbb{E}\!\left[e^{tX}\right]" data-equation="eq:mgf_function">
+M_X(t) := \mathbb{E}\!\left[e^{tX}\right] = \left( 1 - 2t \right )^{-k/2} \text{ for } t < \tfrac{1}{2}" data-equation="eq:mgf_function">
 	<img src="" alt="Moment-generating function (MGF) for a Chi-squared distribution.">
 	<br>
 </div>
@@ -40,36 +40,36 @@ var matrix = require( 'dstructs-matrix' ),
 	t,
 	i;
 
-out = mgf( 1 );
-// returns
+out = mgf( 0.2 );
+// returns ~1.291
 
 out = mgf( -1 );
-// returns 0
+// returns ~0.577
 
-t = [ 0, 0.5, 1, 1.5, 2, 2.5 ];
+t = [ 0, 0.2, 0.4, 0.6, 0.8, 1 ];
 out = mgf( t );
-// returns [...]
+// returns [ 1, ~1.291, ~2.236, NaN, NaN, NaN ]
 
-t = new Int8Array( t );
+t = new Float32Array( t );
 out = mgf( t );
-// returns Float64Array( [...] )
+// returns Float64Array( [1,~1.291,~2.236,NaN,NaN,NaN] )
 
 t = new Float32Array( 6 );
 for ( i = 0; i < 6; i++ ) {
-	t[ i ] = i * 0.5;
+	t[ i ] = i * 0.2;
 }
 mat = matrix( t, [3,2], 'float32' );
 /*
-	[ 0  0.5
-	  1  1.5
-	  2  2.5 ]
+	[ 0    0.2
+	  0.4  0.6
+	  0.8  1 ]
 */
 
 out = mgf( mat );
 /*
-	[
-
-	   ]
+	[  1     ~1.291
+	  ~2.236 NaN
+	   NaN	 NaN   ]
 */
 ```
 
@@ -85,12 +85,12 @@ The function accepts the following `options`:
 A [Chi-squared](https://en.wikipedia.org/wiki/Chi-squared_distribution) distribution is a function of 1 parameter(s): `k`(degrees of freedom). By default, `k` is equal to `1`. To adjust either parameter, set the corresponding option.
 
 ``` javascript
-var t = [ 0, 0.5, 1, 1.5, 2, 2.5 ];
+var t = [ 0, 0.2, 0.4, 0.6, 0.8, 1 ];
 
 var out = mgf( t, {
 	'k': 3
 });
-// returns [...]
+// returns [ 1, ~2.152, ~11.18, NaN, NaN, NaN ]
 ```
 
 For non-numeric `arrays`, provide an accessor `function` for accessing `array` values.
@@ -98,11 +98,11 @@ For non-numeric `arrays`, provide an accessor `function` for accessing `array` v
 ``` javascript
 var data = [
 	[0,0],
-	[1,0.5],
-	[2,1],
-	[3,1.5],
-	[4,2],
-	[5,2.5]
+	[1,0.2],
+	[2,0.4],
+	[3,0.6],
+	[4,0.8],
+	[5,1]
 ];
 
 function getValue( d, i ) {
@@ -112,7 +112,7 @@ function getValue( d, i ) {
 var out = mgf( data, {
 	'accessor': getValue
 });
-// returns [...]
+// returns [ 1, ~1.291, ~2.236, NaN, NaN, NaN ]
 ```
 
 
@@ -121,11 +121,11 @@ To [deepset](https://github.com/kgryte/utils-deep-set) an object `array`, provid
 ``` javascript
 var data = [
 	{'x':[0,0]},
-	{'x':[1,0.5]},
-	{'x':[2,1]},
-	{'x':[3,1.5]},
-	{'x':[4,2]},
-	{'x':[5,2.5]}
+	{'x':[1,0.2]},
+	{'x':[2,0.4]},
+	{'x':[3,0.6]},
+	{'x':[4,0.8]},
+	{'x':[5,1]}
 ];
 
 var out = mgf( data, {
@@ -134,12 +134,12 @@ var out = mgf( data, {
 });
 /*
 	[
-		{'x':[0,]},
-		{'x':[1,]},
-		{'x':[2,]},
-		{'x':[3,]},
-		{'x':[4,]},
-		{'x':[5,]}
+		{'x':[0,1]},
+		{'x':[1,~1.291]},
+		{'x':[2,~2.236]},
+		{'x':[3,NaN]},
+		{'x':[4,NaN]},
+		{'x':[5,NaN]}
 	]
 */
 
@@ -152,18 +152,18 @@ By default, when provided a [`typed array`](https://developer.mozilla.org/en-US/
 ``` javascript
 var t, out;
 
-t = new Int8Array( [0,1,2,3,4] );
+t = new Int8Array( [0,0.2,0.4] );
 
 out = mgf( t, {
 	'dtype': 'int32'
 });
-// returns Int32Array( [...] )
+// returns Int32Array( [1,1,2] )
 
 // Works for plain arrays, as well...
-out = mgf( [0,0.5,1,1.5,2], {
+out = mgf( [0,0.2,0.4], {
 	'dtype': 'uint8'
 });
-// returns Uint8Array( [...] )
+// returns Uint8Array( [1,1,2] )
 ```
 
 By default, the function returns a new data structure. To mutate the input data structure (e.g., when input values can be discarded or when optimizing memory usage), set the `copy` option to `false`.
@@ -175,34 +175,34 @@ var bool,
 	t,
 	i;
 
-t = [ 0, 0.5, 1, 1.5, 2 ];
+t = [ 0, 0.2, 0.4, 0.6, 0.8, 1 ];
 
 out = mgf( t, {
 	'copy': false
 });
-// returns [...]
+// returns [ 1, ~1.291, ~2.236, NaN, NaN, NaN ]
 
 bool = ( t === out );
 // returns true
 
 t = new Float32Array( 6 );
 for ( i = 0; i < 6; i++ ) {
-	t[ i ] = i * 0.5;
+	t[ i ] = i * 0.2;
 }
 mat = matrix( t, [3,2], 'float32' );
 /*
-	[ 0  0.5
-	  1  1.5
-	  2  2.5 ]
+	[ 0    0.2
+	  0.4  0.6
+	  0.8  1 ]
 */
 
 out = mgf( mat, {
 	'copy': false
 });
 /*
-	[
-
-	   ]
+	[  1     ~1.291
+	  ~2.236 NaN
+	   NaN	 NaN   ]
 */
 
 bool = ( mat === out );
@@ -282,7 +282,7 @@ var data,
 // Plain arrays...
 data = new Array( 10 );
 for ( i = 0; i < data.length; i++ ) {
-	data[ i ] = i * 0.5;
+	data[ i ] = i / 20;
 }
 out = mgf( data );
 
@@ -313,7 +313,7 @@ out = mgf( data, {
 // Typed arrays...
 data = new Float32Array( 10 );
 for ( i = 0; i < data.length; i++ ) {
-	data[ i ] = i * 0.5;
+	data[ i ] = i / 20;
 }
 out = mgf( data );
 

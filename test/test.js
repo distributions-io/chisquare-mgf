@@ -166,7 +166,7 @@ describe( 'distributions-chi-squared-mgf', function tests() {
 
 		for ( i = 0; i < actual.length; i++ ) {
 			if ( isFiniteNumber( actual[ i ] ) && isFiniteNumber( expected[ i ] ) ) {
-				assert.closeTo( actual[ i ], expected[ i ], 1e-15 );
+				assert.closeTo( actual[ i ], expected[ i ], 1e-14 );
 			}
 		}
 		// Mutate...
@@ -178,7 +178,7 @@ describe( 'distributions-chi-squared-mgf', function tests() {
 
 		for ( i = 0; i < data.length; i++ ) {
 			if ( isFiniteNumber( data[ i ] ) && isFiniteNumber( expected[ i ] ) ) {
-				assert.closeTo( data[ i ], expected[ i ], 1e-15 );
+				assert.closeTo( data[ i ], expected[ i ], 1e-14 );
 			}
 		}
 	});
@@ -190,7 +190,7 @@ describe( 'distributions-chi-squared-mgf', function tests() {
 			expected,
 			i;
 
-		data = new Float32Array( validationData.data );
+		data = new Float64Array( validationData.data );
 
 		expected = new Float64Array( validationData.expected.map( function( d ) {
 			return d === 'Inf' ? Infinity : d;
@@ -212,7 +212,7 @@ describe( 'distributions-chi-squared-mgf', function tests() {
 			'copy': false,
 			'k': validationData.k
 		});
-		expected = new Float32Array( validationData.expected.map( function( d ) {
+		expected = new Float64Array( validationData.expected.map( function( d ) {
 			return d === 'Inf' ? Infinity : d;
 		}) );
 		assert.strictEqual( actual, data );
