@@ -8,7 +8,7 @@ The [moment-generating function](https://en.wikipedia.org/wiki/Moment-generating
 
 <div class="equation" align="center" data-raw-text="
 M_X(t) := \mathbb{E}\!\left[e^{tX}\right] = \left( 1 - 2t \right )^{-k/2} \text{ for } t < \tfrac{1}{2}" data-equation="eq:mgf_function">
-	<img src="" alt="Moment-generating function (MGF) for a Chi-squared distribution.">
+	<img src="https://cdn.rawgit.com/distributions-io/chisquare-mgf/4279af21d940e226cf708a74ed8855afc62466dd/docs/img/eqn.svg" alt="Moment-generating function (MGF) for a Chi-squared distribution.">
 	<br>
 </div>
 
